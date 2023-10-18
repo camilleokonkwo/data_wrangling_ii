@@ -290,8 +290,20 @@ inspection_df |>
 ``` r
 inspection_df |> 
   filter(str_detect(dba, "PIZZA")) |> 
-  ggplot(aes(x = boro)) +
+  mutate(boro = fct_infreq(boro)) |> 
+  ggplot(aes(x = boro, fill = grade)) +
   geom_bar()
 ```
 
 <img src="strings_and_factors_files/figure-gfm/unnamed-chunk-16-1.png" width="90%" />
+
+``` r
+inspection_df |> 
+  filter(str_detect(dba, "PIZZA")) |> 
+  mutate(boro = fct_infreq(boro), 
+         boro = fct_recode(boro, "The City" = "Manhattan")) |>
+  ggplot(aes(x = boro, fill = grade)) +
+  geom_bar()
+```
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-17-1.png" width="90%" />
