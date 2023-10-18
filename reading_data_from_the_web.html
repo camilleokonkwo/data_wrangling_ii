@@ -353,7 +353,83 @@ display: none;
 </div>
 
 
+<pre class="r"><code>library(rvest)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rvest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     guess_encoding</code></pre>
+<pre class="r"><code>library(p8105.datasets)</code></pre>
+<div id="strings-and-manipulation" class="section level2">
+<h2>Strings and manipulation</h2>
+<pre class="r"><code>string_vec = c(&quot;my&quot;, &quot;name&quot;, &quot;is&quot;, &quot;camille&quot;)
 
+str_detect(string_vec, &quot;camille&quot;)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;e&quot;)</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;Camille&quot;)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE FALSE</code></pre>
+<pre class="r"><code>str_replace(string_vec, &quot;camille&quot;, &quot;Camille Okonkwo&quot;)</code></pre>
+<pre><code>## [1] &quot;my&quot;              &quot;name&quot;            &quot;is&quot;              &quot;Camille Okonkwo&quot;</code></pre>
+<pre class="r"><code>string_vec = c(
+  &quot;i think we all rule for participating&quot;,
+  &quot;i think i have been caught&quot;,
+  &quot;i think this will be quite fun actually&quot;,
+  &quot;it will be fun, i think&quot;
+  )
+
+str_detect(string_vec, &quot;i think&quot;)</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE TRUE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;^i think&quot;)</code></pre>
+<pre><code>## [1]  TRUE  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;i think$&quot;)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>string_vec = c(
+  &quot;Time for a Pumpkin Spice Latte!&quot;,
+  &quot;went to the #pumpkinpatch last weekend&quot;,
+  &quot;Pumpkin Pie is obviously the best pie&quot;,
+  &quot;SMASHING PUMPKINS -- LIVE IN CONCERT!!&quot;
+  )
+
+str_detect(string_vec,&quot;Pumpkin&quot;)</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>str_detect(string_vec,&quot;[Pp]umpkin&quot;)</code></pre>
+<pre><code>## [1]  TRUE  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>string_vec = c(
+  &#39;7th inning stretch&#39;,
+  &#39;1st half soon to begin. Texas won the toss.&#39;,
+  &#39;she is 5 feet 4 inches tall&#39;,
+  &#39;3AM - cant sleep :(&#39;
+  )
+
+str_detect(string_vec, &quot;[0-9]&quot;)</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE TRUE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;^[0-9]&quot;)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;^[0-9][a-z]&quot;)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE FALSE</code></pre>
+<pre class="r"><code>str_detect(string_vec, &quot;^[0-9][a-zA-Z]&quot;)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>string_vec = c(
+  &#39;Its 7:11 in the evening&#39;,
+  &#39;want to go to 7-11?&#39;,
+  &#39;my flight is AA711&#39;,
+  &#39;NetBios: scanning ip 203.167.114.66&#39;
+  )
+
+str_detect(string_vec, &quot;7.11&quot;)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>string_vec = c(
+  &#39;The CI is [2, 5]&#39;,
+  &#39;:-]&#39;,
+  &#39;:-[&#39;,
+  &#39;I found the answer on pages [6-7]&#39;
+  )
+
+str_detect(string_vec, &quot;\\[0-9]&quot;)</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE FALSE</code></pre>
+</div>
 
 
 

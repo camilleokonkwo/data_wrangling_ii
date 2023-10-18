@@ -1,94 +1,109 @@
 ---
-title: "reading_data_from_the_web"
-author: "Camille Okonwko"
-date: "2023-10-12"
+title: "Strings and factos"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Load necessary libraries.
-```{r}
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
-library(rvest)
-library(httr)
 
-```
-
-
-Import
-```{r}
-nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
-
-nsduh_html =
-  read_html(nsduh_url)
-```
-
-
-```{r function_gives_first_in_list}
-marj_use_df =
-  nsduh_html |>
-  html_table() |> 
-  first() |> 
-  slice(-1) #slice ets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. It is accompanied by a number of helpers for common use cases:
-```
-
-
-Import star wars ...
-```{r}
-swm_url = "https://www.imdb.com/list/ls070150896/"
-swm_html = 
-  read_html("https://www.imdb.com/list/ls070150896/")
-
-swm_html =
-  read_html(swm_url)
-```
-
-```{r}
-swm_title_vec =
-swm_html |> 
-  html_elements(".lister-item-header a") |> 
-  html_text()
-
-swm_gross_rev_vec = 
-  swm_html |> 
-  html_elements(".text-small:nth-child(7) span:nth-child(5)") |> 
-  html_text()
-
-swm_df =
-  tibble(
-    title = swm_title_vec, 
-    gross_rev = swm_gross_rev_vec
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE,
+  fig.width = 6, 
+  fig.asp = .6, 
+  out.width = "90%"
   )
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
-
-
-## APIS
-
-Get water data from NYC.
 
 ```{r}
-nyc_water_df = 
-  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") |> 
-  content("parsed") # not necessary here but nice to knoe
-
+library(rvest)
+library(p8105.datasets)
 ```
 
+## Strings and manipulation
 
-BRFSS Data
 ```{r}
-brfss_df = 
-  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
-      query = list("$limit" = 5000)) |> 
-  content()
+string_vec = c("my", "name", "is", "camille")
+
+str_detect(string_vec, "camille")
+str_detect(string_vec, "e")
+str_detect(string_vec, "Camille")
+
+str_replace(string_vec, "camille", "Camille Okonkwo")
+
 ```
 
-Try it now!
+
 ```{r}
-poke_df =
-  GET("http://pokeapi.co/api/v2/pokemon/ditto") |>
-  content()
+string_vec = c(
+  "i think we all rule for participating",
+  "i think i have been caught",
+  "i think this will be quite fun actually",
+  "it will be fun, i think"
+  )
+
+str_detect(string_vec, "i think")
+str_detect(string_vec, "^i think")
+str_detect(string_vec, "i think$")
 ```
+
+
+```{r}
+string_vec = c(
+  "Time for a Pumpkin Spice Latte!",
+  "went to the #pumpkinpatch last weekend",
+  "Pumpkin Pie is obviously the best pie",
+  "SMASHING PUMPKINS -- LIVE IN CONCERT!!"
+  )
+
+str_detect(string_vec,"Pumpkin")
+str_detect(string_vec,"[Pp]umpkin")
+```
+
+```{r}
+string_vec = c(
+  '7th inning stretch',
+  '1st half soon to begin. Texas won the toss.',
+  'she is 5 feet 4 inches tall',
+  '3AM - cant sleep :('
+  )
+
+str_detect(string_vec, "[0-9]")
+str_detect(string_vec, "^[0-9]")
+str_detect(string_vec, "^[0-9][a-z]")
+str_detect(string_vec, "^[0-9][a-zA-Z]")
+```
+
+```{r}
+string_vec = c(
+  'Its 7:11 in the evening',
+  'want to go to 7-11?',
+  'my flight is AA711',
+  'NetBios: scanning ip 203.167.114.66'
+  )
+
+str_detect(string_vec, "7.11")
+```
+
+```{r}
+string_vec = c(
+  'The CI is [2, 5]',
+  ':-]',
+  ':-[',
+  'I found the answer on pages [6-7]'
+  )
+
+str_detect(string_vec, "\\[0-9]")
+ ```
+
 
