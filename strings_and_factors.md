@@ -1,50 +1,50 @@
----
-title: "Strings and factors"
-output: github_document
----
+Strings and factors
+================
 
-```{r setup, include=FALSE, message = FALSE, warning = FALSE}
-library(tidyverse)
-
-knitr::opts_chunk$set(
-  echo = TRUE, 
-  warning = FALSE,
-  fig.width = 6, 
-  fig.asp = .6, 
-  out.width = "90%"
-  )
-
-theme_set(theme_minimal() + theme(legend.position = "bottom"))
-
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis"
-)
-
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d
+``` r
+library(rvest)
 ```
 
-```{r}
-library(rvest)
+    ## 
+    ## Attaching package: 'rvest'
+
+    ## The following object is masked from 'package:readr':
+    ## 
+    ##     guess_encoding
+
+``` r
 library(p8105.datasets)
 ```
 
 ## Strings and manipulation
 
-```{r}
+``` r
 string_vec = c("my", "name", "is", "camille")
 
 str_detect(string_vec, "camille")
-str_detect(string_vec, "e")
-str_detect(string_vec, "Camille")
-
-str_replace(string_vec, "camille", "Camille Okonkwo")
-
 ```
 
+    ## [1] FALSE FALSE FALSE  TRUE
 
-```{r}
+``` r
+str_detect(string_vec, "e")
+```
+
+    ## [1] FALSE  TRUE FALSE  TRUE
+
+``` r
+str_detect(string_vec, "Camille")
+```
+
+    ## [1] FALSE FALSE FALSE FALSE
+
+``` r
+str_replace(string_vec, "camille", "Camille Okonkwo")
+```
+
+    ## [1] "my"              "name"            "is"              "Camille Okonkwo"
+
+``` r
 string_vec = c(
   "i think we all rule for participating",
   "i think i have been caught",
@@ -53,12 +53,23 @@ string_vec = c(
   )
 
 str_detect(string_vec, "i think")
+```
+
+    ## [1] TRUE TRUE TRUE TRUE
+
+``` r
 str_detect(string_vec, "^i think")
+```
+
+    ## [1]  TRUE  TRUE  TRUE FALSE
+
+``` r
 str_detect(string_vec, "i think$")
 ```
 
+    ## [1] FALSE FALSE FALSE  TRUE
 
-```{r}
+``` r
 string_vec = c(
   "Time for a Pumpkin Spice Latte!",
   "went to the #pumpkinpatch last weekend",
@@ -67,10 +78,17 @@ string_vec = c(
   )
 
 str_detect(string_vec,"Pumpkin")
+```
+
+    ## [1]  TRUE FALSE  TRUE FALSE
+
+``` r
 str_detect(string_vec,"[Pp]umpkin")
 ```
 
-```{r}
+    ## [1]  TRUE  TRUE  TRUE FALSE
+
+``` r
 string_vec = c(
   '7th inning stretch',
   '1st half soon to begin. Texas won the toss.',
@@ -79,12 +97,29 @@ string_vec = c(
   )
 
 str_detect(string_vec, "[0-9]")
+```
+
+    ## [1] TRUE TRUE TRUE TRUE
+
+``` r
 str_detect(string_vec, "^[0-9]")
+```
+
+    ## [1]  TRUE  TRUE FALSE  TRUE
+
+``` r
 str_detect(string_vec, "^[0-9][a-z]")
+```
+
+    ## [1]  TRUE  TRUE FALSE FALSE
+
+``` r
 str_detect(string_vec, "^[0-9][a-zA-Z]")
 ```
 
-```{r}
+    ## [1]  TRUE  TRUE FALSE  TRUE
+
+``` r
 string_vec = c(
   'Its 7:11 in the evening',
   'want to go to 7-11?',
@@ -95,7 +130,9 @@ string_vec = c(
 str_detect(string_vec, "7.11")
 ```
 
-```{r}
+    ## [1]  TRUE  TRUE FALSE  TRUE
+
+``` r
 string_vec = c(
   'The CI is [2, 5]',
   ':-]',
@@ -105,20 +142,37 @@ string_vec = c(
 
 str_detect(string_vec, "\\[0-9]")
 ```
- 
- ## Factors
- 
-```{r}
+
+    ## [1] FALSE FALSE FALSE FALSE
+
+\## Factors
+
+``` r
 vec_sex = factor(c("male", "male", "female", "female"))
 vec_sex
+```
 
-as.numeric(vec_sex)
+    ## [1] male   male   female female
+    ## Levels: female male
 
-vec_sex = fct_relevel(vec_sex, "male")
-vec_sex
-
+``` r
 as.numeric(vec_sex)
 ```
- 
+
+    ## [1] 2 2 1 1
+
+``` r
+vec_sex = fct_relevel(vec_sex, "male")
+vec_sex
+```
+
+    ## [1] male   male   female female
+    ## Levels: male female
+
+``` r
+as.numeric(vec_sex)
+```
+
+    ## [1] 1 1 2 2
 
 ## NSDUH
