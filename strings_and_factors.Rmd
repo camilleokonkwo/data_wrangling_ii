@@ -1,0 +1,94 @@
+---
+title: "reading_data_from_the_web"
+author: "Camille Okonwko"
+date: "2023-10-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load necessary libraries.
+```{r}
+library(tidyverse)
+library(rvest)
+library(httr)
+
+```
+
+
+Import
+```{r}
+nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+
+nsduh_html =
+  read_html(nsduh_url)
+```
+
+
+```{r function_gives_first_in_list}
+marj_use_df =
+  nsduh_html |>
+  html_table() |> 
+  first() |> 
+  slice(-1) #slice ets you index rows by their (integer) locations. It allows you to select, remove, and duplicate rows. It is accompanied by a number of helpers for common use cases:
+```
+
+
+Import star wars ...
+```{r}
+swm_url = "https://www.imdb.com/list/ls070150896/"
+swm_html = 
+  read_html("https://www.imdb.com/list/ls070150896/")
+
+swm_html =
+  read_html(swm_url)
+```
+
+```{r}
+swm_title_vec =
+swm_html |> 
+  html_elements(".lister-item-header a") |> 
+  html_text()
+
+swm_gross_rev_vec = 
+  swm_html |> 
+  html_elements(".text-small:nth-child(7) span:nth-child(5)") |> 
+  html_text()
+
+swm_df =
+  tibble(
+    title = swm_title_vec, 
+    gross_rev = swm_gross_rev_vec
+  )
+```
+
+
+## APIS
+
+Get water data from NYC.
+
+```{r}
+nyc_water_df = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") |> 
+  content("parsed") # not necessary here but nice to knoe
+
+```
+
+
+BRFSS Data
+```{r}
+brfss_df = 
+  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
+      query = list("$limit" = 5000)) |> 
+  content()
+```
+
+Try it now!
+```{r}
+poke_df =
+  GET("http://pokeapi.co/api/v2/pokemon/ditto") |>
+  content()
+```
+
